@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/name: registry-service
+  name: databus-registry-service
+spec:
+  type: NodePort
+  ports:
+  - name: prometheus
+    nodePort: 32101
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  selector:
+    apicur.io/name: databus-registry

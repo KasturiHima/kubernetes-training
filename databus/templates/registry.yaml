@@ -1,0 +1,9 @@
+apiVersion: registry.apicur.io/v1
+kind: ApicurioRegistry
+metadata:
+  name:  {{ include "databus.fullname" . }}-registry
+spec:
+  configuration:
+    persistence: "kafkasql"
+    kafkasql:
+      bootstrapServers: "{{ include "databus.fullname" . }}-cluster-kafka-bootstrap:9092"

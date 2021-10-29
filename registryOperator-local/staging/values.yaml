@@ -1,0 +1,5 @@
+apicurio:
+  OPERATOR_IMAGE: "quay.io/apicurio/apicurio-registry-operator:1.0.0"
+  REGISTRY_IMAGE_MEM: "quay.io/apicurio/apicurio-registry-mem:2.0.0.Final"
+  REGISTRY_IMAGE_KAFKASQL: "quay.io/apicurio/apicurio-registry-kafkasql:2.0.0.Final"
+  REGISTRY_IMAGE_SQL: "quay.io/apicurio/apicurio-registry-sql:2.0.0.Final"

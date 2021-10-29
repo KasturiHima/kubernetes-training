@@ -1,0 +1,73 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    apicur.io/name: apicurio-registry-operator
+    apicur.io/type: operator
+    apicur.io/version: 1.0.0
+    name: apicurio-registry-operator
+  name: databus-apicurio-registry-operator
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      apicur.io/name: apicurio-registry-operator
+      apicur.io/type: operator
+      apicur.io/version: 1.0.0
+      name: apicurio-registry-operator
+  template:
+    metadata:
+      labels:
+        apicur.io/name: apicurio-registry-operator
+        apicur.io/type: operator
+        apicur.io/version: 1.0.0
+        name: apicurio-registry-operator
+    spec:
+      containers:
+      - args:
+        - --leader-elect
+        command:
+        - /manager
+        env:
+        - name: REGISTRY_VERSION
+          value: 2.0.2.Final
+        - name: REGISTRY_IMAGE_KAFKASQL
+          value: {{.Values.apicurio.REGISTRY_IMAGE_KAFKASQL }}
+        - name: WATCH_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: OPERATOR_NAME
+          value: apicurio-registry-operator
+        image: {{.Values.apicurio.OPERATOR_IMAGE }}
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 8081
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        name: apicurio-registry-operator
+        readinessProbe:
+          httpGet:
+            path: /readyz
+            port: 8081
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        resources:
+          limits:
+            cpu: 4m
+            memory: 64Mi
+          requests:
+            cpu: 2m
+            memory: 32Mi
+      serviceAccountName: apicurio-registry-operator
+      terminationGracePeriodSeconds: 10

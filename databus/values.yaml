@@ -1,0 +1,43 @@
+replicas: 9
+
+brokerConfig:
+  brokers:
+      - broker: 0
+        advertisedHost: "192.168.49.2"
+      - broker: 1
+        advertisedHost: "192.168.49.2"
+      - broker: 2
+        advertisedHost: "192.168.49.2"
+      - broker: 3
+        advertisedHost: "192.168.49.2"
+kafkaResources:
+  requests:
+    memory: 32Gi
+    cpu: "1"
+  limits:
+    memory: 32Gi
+    cpu: "1"
+
+kafkaConfig:
+  offsets.topic.replication.factor: 3
+  transaction.state.log.replication.factor: 3
+  transaction.state.log.min.isr: 2
+  log.message.format.version: "2.8"
+  inter.broker.protocol.version: "2.8"
+  num.recovery.threads.per.data.dir: 6
+
+kafkaStorage:
+  size: "3Gi"
+
+zookeeperResources:
+  requests:
+    memory: 2Gi
+    cpu: "1"
+  limits:
+    memory: 2Gi
+    cpu: "1"
+
+zookeeperStorage:
+  size: "2Gi"
+zookeeper:
+  replicas: 3
